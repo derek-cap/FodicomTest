@@ -1,0 +1,66 @@
+﻿<Window x:Class="DicomViewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DicomViewer"
+        xmlns:v="clr-namespace:DicomViewer.Views"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="960" Width="1920">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Resources/ReviewerResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="ItemsControl" x:Key="ItemsControlStyle">
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="{Binding Rows}" Columns="{Binding Columns}"/>
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="180"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Background="AliceBlue" SizeChanged="Grid_SizeChanged">
+            <ItemsControl ItemsSource="{Binding SceneCollection}" Style="{StaticResource ItemsControlStyle}"/>
+            <Canvas>
+                <TextBlock Text="ABC" Foreground="Yellow"/>
+            </Canvas>
+            <Canvas>
+            </Canvas>
+            <!--<v:InteractorBox/>-->
+        </Grid>
+
+        <StackPanel Grid.Column="1">
+            <Button Name="FlipXButton" Width="120" Height="48" Content="Flip X" Margin="16" Click="FlipXButton_Click"/>
+            <Button Name="RotateButton" Width="120" Height="48" Content="Rotate90" Margin="16" Click="RotateButton_Click"/>
+            <Button Name="Layout" Width="120" Height="48" Content="Layout" Margin="16" Click="LayoutButton_Click"/>
+            <Button Name="AddPointButton" Width="120" Height="48" Content="Add Point" Margin="16" Click="AddPointButton_Click"/>
+            <!--<GroupBox RadioButton.Checked="{Binding}">
+                <RadioButton Content="A"/>
+            </GroupBox>-->
+            <Button Name="Windows" Width="120" Height="48" Content="Windowing" Margin="16" Click="Windows_Click"/>
+            <Button Name="Replace" Width="120" Height="48" Content="Replace" Margin="16" Click="Replace_Click"/>
+            <Button Name="Invert" Width="120" Height="48" Content="Invert" Margin="16" Click="Invert_Click"/>
+
+            <Button Name="SmoothButton" Width="120" Height="48" Content="Smooth" Margin="16" Click="SmoothButton_Click"/>
+
+            <!--<Image Name="Image" Width="120" Height="120" Source="Resources\Pngs\Line.png" RenderTransformOrigin="0.5,0.5" MouseDown="Image_MouseDown">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <RotateTransform  Angle="90"/>
+                    </TransformGroup>                    
+                </Image.RenderTransform>
+            </Image>-->            
+        </StackPanel>
+    </Grid>
+</Window>

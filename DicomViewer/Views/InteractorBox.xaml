@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="DicomViewer.Views.InteractorBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:src="clr-namespace:DicomViewer.Models"
+             xmlns:local="clr-namespace:DicomViewer.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="interactors" ObjectType="src:InteractorFactory" MethodName="GetInteractors"/>
+
+        <DataTemplate x:Key="interactorTemplate" DataType="{x:Type src:Interactor}">
+            <Grid Width="40" Height="40">
+                <ToggleButton ToolTip="{Binding ToolTip}" IsChecked="{Binding IsChecked}">
+                    <Image Margin="2" Source="{Binding ImagePath}"/>
+                </ToggleButton>                
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    <Grid DataContext="{StaticResource interactors}">
+        <ListBox ItemsSource="{Binding}" ItemTemplate="{StaticResource interactorTemplate}">
+            
+        </ListBox>
+    </Grid>
+</UserControl>
