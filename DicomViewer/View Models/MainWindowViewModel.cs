@@ -1,4 +1,5 @@
 ﻿using DicomViewer.Models;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace DicomViewer.View_Models
 {
@@ -28,9 +30,21 @@ namespace DicomViewer.View_Models
             set { SetProperty(ref _columns, value); }
         }
 
-        public MainWindowViewModel()
-        {
+        private DelegateCommand<object> _smoothCommand;
+        public ICommand SmoothCommand => _smoothCommand ?? (_smoothCommand = new DelegateCommand<object>(Smooth));
 
+        private void Smooth(object @value)
+        {
+            string layout = @value as string;
+            switch (layout)
+            {
+                case "1,1":
+                    break;
+            }
+            if (layout != null && layout.Equals("1,1"))
+            {
+                MessageBox.Show("Right");
+            }
         }
 
         public void Initialize()

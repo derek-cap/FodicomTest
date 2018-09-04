@@ -97,7 +97,7 @@ namespace DicomViewer.Models
             image?.BestFit(sceneWidth, sceneHeight);
         }
 
-        public void ChangeCreator()
+        public void ChangeCreator(ISceneObjectCreator creator)
         {
             SceneObjectCreator = new ScenePolyLineCreator();
             SceneObjectCreator.SceneObjectCreated += OnSceneObjectCreated;

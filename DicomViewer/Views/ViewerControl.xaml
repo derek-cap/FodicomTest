@@ -15,7 +15,7 @@
         </ResourceDictionary>-->
     </UserControl.Resources>
 
-    <Grid Name="MainGrid" Background="LightGray" MouseDown="ItemsControl_MouseDown" MouseMove="ScenesControl_MouseMove" MouseUp="MainGrid_MouseUp">
+    <Grid Name="MainGrid" Background="LightGray" MouseDown="ScenesControl_MouseDown" MouseMove="ScenesControl_MouseMove" MouseUp="MainGrid_MouseUp">
         <TextBlock Name="HUText" Text="A" FontSize="16" Foreground="Aqua"/>
         <ItemsControl Name="ScenesControl" ItemsSource="{Binding ObjectCollection}">
             <ItemsControl.ItemsPanel>

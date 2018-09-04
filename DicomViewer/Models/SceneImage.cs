@@ -62,7 +62,7 @@ namespace DicomViewer.Models
 
         public void AddOverlay(System.Drawing.Bitmap bitmap, System.Drawing.Color mask)
         {
-      //      var overlayData = DicomOverlayDataFactory.FromBitmap(_dicom, bitmap, mask);
+            var overlayData = DicomOverlayDataFactory.FromBitmap(_dicom, bitmap, mask);
             //DicomFile file = new DicomFile(_dicom);
             //file.Save("D:\\overlay1.dcm");
         }

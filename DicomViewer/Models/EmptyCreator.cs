@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace DicomViewer.Models
 {
-    class EmptyCeator : ISceneObjectCreator
+    class EmptyCreator : ISceneObjectCreator
     {
         public event EventHandler<SceneObject> SceneObjectCreated;
         public event EventHandler<SceneObject> SceneObjecDrawing;

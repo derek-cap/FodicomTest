@@ -46,7 +46,7 @@ namespace DicomViewer.Views
             return obj as FrameworkElement;
         }
 
-        private void ItemsControl_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ScenesControl_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var point = e.GetPosition(this);
 
@@ -70,7 +70,7 @@ namespace DicomViewer.Views
                 if (scene != null)
                 {
                     var hu = scene.GetSceneImage().GetHUValue(ratioX, ratioY);
-                    HUText.Text = $"{point.X}, {point.Y} = {hu}";
+                    HUText.Text = $"{(int)point.X}, {point.Y} = {hu}";
                 }
             }
             else

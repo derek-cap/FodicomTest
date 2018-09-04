@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -49,12 +50,7 @@ namespace FoDicomTest
                 //       file.Save(item.FullName);
                 //   }
                 //   ImageTest.Run();
-                string abc = "abc";
-                string res = abc + '\0';
-                Console.WriteLine(abc.Length);
-                Console.WriteLine(res.Length);
-                Console.WriteLine(res.ToArray().Length);
-                Console.WriteLine(res.Trim('\0').Length);
+                
                 
             }
             catch (Exception ex)

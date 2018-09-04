@@ -73,7 +73,7 @@
     <Compile Include="Helpers\PixelHelper.cs" />
     <Compile Include="Models\DcmImage.cs" />
     <Compile Include="Models\DicomPixelDataFactory.cs" />
-    <Compile Include="Models\EmptyCeator.cs" />
+    <Compile Include="Models\EmptyCreator.cs" />
     <Compile Include="Models\Interactor.cs" />
     <Compile Include="Models\InteractorFactory.cs" />
     <Compile Include="Models\ISceneObjectCreator.cs" />

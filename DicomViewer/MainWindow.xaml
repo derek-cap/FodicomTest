@@ -52,7 +52,8 @@
             <Button Name="Replace" Width="120" Height="48" Content="Replace" Margin="16" Click="Replace_Click"/>
             <Button Name="Invert" Width="120" Height="48" Content="Invert" Margin="16" Click="Invert_Click"/>
 
-            <Button Name="SmoothButton" Width="120" Height="48" Content="Smooth" Margin="16" Click="SmoothButton_Click"/>
+            <Button Name="SmoothButton" Width="120" Height="48" Content="Smooth" Margin="16"
+                    Command="{Binding SmoothCommand}" CommandParameter="1,2"/>
 
             <!--<Image Name="Image" Width="120" Height="120" Source="Resources\Pngs\Line.png" RenderTransformOrigin="0.5,0.5" MouseDown="Image_MouseDown">
                 <Image.RenderTransform>
