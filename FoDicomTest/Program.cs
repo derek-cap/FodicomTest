@@ -1,6 +1,8 @@
 ﻿using Dicom;
 using Dicom.Imaging;
 using Dicom.Network;
+using FoDicomTest.Communication;
+using FoDicomTest.DataSource;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,6 +16,12 @@ namespace FoDicomTest
 {
     class Program
     {
+        class Person
+        {
+            public string Name { get; set; }
+            public int Aget { get; set; }
+        }
+
         static void Main(string[] args)
         {
             try
@@ -50,8 +58,10 @@ namespace FoDicomTest
                 //       file.Save(item.FullName);
                 //   }
                 //   ImageTest.Run();
-                
-                
+
+
+                //SearchModelTest test = new SearchModelTest();
+                //test.Test().Wait();
             }
             catch (Exception ex)
             {
@@ -59,6 +69,23 @@ namespace FoDicomTest
             }
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
+        }
+
+        static void ToPhilips()
+        {
+            string path = @"D:\Dicom\for yu qing\Chang_Jian_Rong_GE\SE02";
+            var client = new DicomClient();
+            foreach (var item in Directory.GetFiles(path))
+            {
+                DicomCStoreRequest request = new DicomCStoreRequest(item);
+                request.OnResponseReceived += (req, rsp) =>
+                {
+                    Console.WriteLine(rsp.Status);
+                };
+                client.AddRequest(request);
+            }
+            PacsNode node = PacsNode.Philips;
+            client.Send(node.Host, node.Port, false, "FODICOMSCU", node.AET);
         }
     }
 }

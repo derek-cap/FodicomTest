@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DicomServerTest", "DicomSer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DicomViewer", "DicomViewer\DicomViewer.csproj", "{B081E0C3-CA3A-403F-9C99-48C685D12712}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfTest", "WpfTest\WpfTest.csproj", "{2774B105-E249-453D-8D14-6688909D0FC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoDBTest", "MongoDBTest\MongoDBTest.csproj", "{31ECC1DA-404D-46DA-8295-D110C0CC4C86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{B081E0C3-CA3A-403F-9C99-48C685D12712}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B081E0C3-CA3A-403F-9C99-48C685D12712}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B081E0C3-CA3A-403F-9C99-48C685D12712}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2774B105-E249-453D-8D14-6688909D0FC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2774B105-E249-453D-8D14-6688909D0FC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2774B105-E249-453D-8D14-6688909D0FC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2774B105-E249-453D-8D14-6688909D0FC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31ECC1DA-404D-46DA-8295-D110C0CC4C86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31ECC1DA-404D-46DA-8295-D110C0CC4C86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31ECC1DA-404D-46DA-8295-D110C0CC4C86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31ECC1DA-404D-46DA-8295-D110C0CC4C86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

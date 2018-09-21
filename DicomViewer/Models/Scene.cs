@@ -43,7 +43,7 @@ namespace DicomViewer.Models
 
         public Scene()
         {
-            ChangeCreator();            
+            ChangeCreator(new EmptyCreator());            
         }
 
         public void AddSceneObject(SceneObject scene)
@@ -99,14 +99,20 @@ namespace DicomViewer.Models
 
         public void ChangeCreator(ISceneObjectCreator creator)
         {
-            SceneObjectCreator = new ScenePolyLineCreator();
+            if (SceneObjectCreator != null)
+            {
+                SceneObjectCreator.SceneObjectCreated -= OnSceneObjectCreated;
+                SceneObjectCreator.SceneObjecDrawing -= OnSceneObjectDrawing;
+            }
+
+            SceneObjectCreator = creator;
+
             SceneObjectCreator.SceneObjectCreated += OnSceneObjectCreated;
             SceneObjectCreator.SceneObjecDrawing += OnSceneObjectDrawing;
         }
 
         public void OnSceneObjectCreated(object sender, SceneObject sceneObject)
         {
-            
         }
 
         public void OnSceneObjectDrawing(object sender, SceneObject sceneObject)

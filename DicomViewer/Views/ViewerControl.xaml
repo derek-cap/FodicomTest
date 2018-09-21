@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:DicomViewer.Views"
              xmlns:m="clr-namespace:DicomViewer.Models"
              mc:Ignorable="d" 
-             d:DesignHeight="512" d:DesignWidth="512">
+             d:DesignHeight="512" d:DesignWidth="512"
+             >
     <UserControl.Resources>
         <!--<ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -17,7 +18,7 @@
 
     <Grid Name="MainGrid" Background="LightGray" MouseDown="ScenesControl_MouseDown" MouseMove="ScenesControl_MouseMove" MouseUp="MainGrid_MouseUp">
         <TextBlock Name="HUText" Text="A" FontSize="16" Foreground="Aqua"/>
-        <ItemsControl Name="ScenesControl" ItemsSource="{Binding ObjectCollection}">
+        <ItemsControl Name="ScenesControl" ItemsSource="{Binding ObjectCollection}" >
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid Margin="2"/>
@@ -26,6 +27,5 @@
         </ItemsControl>
         <!--<ListBox Style="{StaticResource ListBoxStyle1}" ItemsSource="{Binding SceneCollection}" SelectedItem="{Binding SelectedScene}"
                  MouseMove="ListBox_MouseMove"/>-->
-        
     </Grid>
 </UserControl>

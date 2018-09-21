@@ -30,6 +30,13 @@ namespace DicomViewer.View_Models
             set { SetProperty(ref _columns, value); }
         }
 
+        private bool _invertEnabled;
+        public bool InvertEnabled
+        {
+            get { return _invertEnabled; }
+            set { SetProperty(ref _invertEnabled, value); }
+        }
+
         private DelegateCommand<object> _smoothCommand;
         public ICommand SmoothCommand => _smoothCommand ?? (_smoothCommand = new DelegateCommand<object>(Smooth));
 

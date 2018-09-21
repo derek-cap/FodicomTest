@@ -50,7 +50,7 @@
             </GroupBox>-->
             <Button Name="Windows" Width="120" Height="48" Content="Windowing" Margin="16" Click="Windows_Click"/>
             <Button Name="Replace" Width="120" Height="48" Content="Replace" Margin="16" Click="Replace_Click"/>
-            <Button Name="Invert" Width="120" Height="48" Content="Invert" Margin="16" Click="Invert_Click"/>
+            <Button Name="Invert" Width="120" Height="48" Content="Invert" Margin="16" Click="Invert_Click" IsEnabled="{Binding InvertEnabled}"/>
 
             <Button Name="SmoothButton" Width="120" Height="48" Content="Smooth" Margin="16"
                     Command="{Binding SmoothCommand}" CommandParameter="1,2"/>

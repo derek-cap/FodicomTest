@@ -10,9 +10,10 @@ using System.Threading.Tasks;
 
 namespace DicomServerTest
 {
-    class CStoreSCPProvider : DicomService, IDicomServiceProvider, IDicomCStoreProvider
+    class CStoreSCPProvider : DicomService, IDicomServiceProvider, IDicomCStoreProvider, IDicomCEchoProvider
     {
-        public CStoreSCPProvider(Stream stream, Logger log) : base(stream, log) { }
+        public CStoreSCPProvider(INetworkStream stream, Encoding fallbackEncoding, Logger log)
+            : base(stream, fallbackEncoding, log) { }
 
         public DicomCStoreResponse OnCStoreRequest(DicomCStoreRequest request)
         {
@@ -46,7 +47,6 @@ namespace DicomServerTest
         public void OnReceiveAssociationReleaseRequest()
         {
             SendAssociationReleaseResponse();
-
         }
         public void OnReceiveAbort(DicomAbortSource source, DicomAbortReason reason)
         {
@@ -55,6 +55,11 @@ namespace DicomServerTest
         public void OnConnectionClosed(Exception errorCode)
         {
 
+        }
+
+        public DicomCEchoResponse OnCEchoRequest(DicomCEchoRequest request)
+        {
+            return new DicomCEchoResponse(request, DicomStatus.Success);
         }
     }
 }

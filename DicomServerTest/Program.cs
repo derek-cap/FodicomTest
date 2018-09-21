@@ -12,8 +12,8 @@ namespace DicomServerTest
         static void Main(string[] args)
         {
             try
-            { 
-                var server = new DicomServer<CStoreSCPProvider>(12345);
+            {
+                var server = DicomServer.Create<CStoreSCPProvider>(104);
 
                 Console.WriteLine("Running...");
                 Console.ReadLine();

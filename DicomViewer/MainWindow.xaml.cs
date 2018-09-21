@@ -63,7 +63,8 @@ namespace DicomViewer
 
         private void Replace_Click(object sender, RoutedEventArgs e)
         {
-            _viewModel.ReplaceImage();
+            _viewModel.InvertEnabled = !_viewModel.InvertEnabled;
+       //     _viewModel.ReplaceImage();
         }
 
         private void Invert_Click(object sender, RoutedEventArgs e)
@@ -86,7 +87,8 @@ namespace DicomViewer
 
         private void SmoothButton_Click(object sender, RoutedEventArgs e)
         {
-            _viewModel.SmoothOrSharpImage(-1);
+            //    _viewModel.SmoothOrSharpImage(-1);
+       
         }
     }
 }
