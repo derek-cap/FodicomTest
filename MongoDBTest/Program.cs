@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Driver;
+using System.ComponentModel;
+using MongoDBTest.Infrastructure;
 
 namespace MongoDBTest
 {
@@ -16,8 +18,9 @@ namespace MongoDBTest
             {
                 //     var records = RecordFactory.CreateImageRecords();
                 //     InsertImageRecordToDb(records);
-                var records = RecordFactory.CreateStudies();
-                InsertStudyToDb(records);
+                Importer importer = new Importer(new MongoStudyRepository());
+                string path = @"C:\DCMFolder\imagedb\1.2.86.76547135.7.210278.20170306131520";
+                importer.ImportAsync(path).Wait();
             }
             catch (Exception ex)
             {
@@ -52,13 +55,21 @@ namespace MongoDBTest
             }
         }
 
-        static void InsertStudyToDb(IEnumerable<StudyRecord> records)
+      
+
+        static void UpdateStudy()
         {
             var client = new MongoClient(connUrl);
             IMongoDatabase db = client.GetDatabase(dbName);
 
             var collection = db.GetCollection<StudyRecord>("dbo.studies");
-            collection.InsertMany(records);
+
+            var filter = Builders<StudyRecord>.Filter.Where(s => s.StudyUID == "2")
+                & Builders<StudyRecord>.Filter.Where(d => d.SeriesCollection.Any(s => s.SeriesUID == "1"));
+            var result = collection.Find(filter).ToList();
+
+            //var update = Builders<StudyRecord>.Update.Set(d => d.Series[-1].ImageCount, 8);
+            //collection.UpdateOne(filter, update);
         }
     }
 }

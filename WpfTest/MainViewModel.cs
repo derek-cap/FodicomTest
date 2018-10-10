@@ -28,6 +28,8 @@ namespace WpfTest
             _pacsNodes.Add("D");
 
             _selectedPacsNode = PacsNodes.FirstOrDefault();
+
+            var locator = ServiceLocator.Instance;
         }
 
 

@@ -20,11 +20,13 @@ namespace DicomServerTest
             Console.WriteLine("Got request." + request.MessageID);
             return new DicomCStoreResponse(request, DicomStatus.Success);
         }
+
         public void OnCStoreRequestException(string tempFileName, Exception e)
         {
 
         }
-        public void OnReceiveAssociationRequest(DicomAssociation association)
+
+        public Task OnReceiveAssociationRequestAsync(DicomAssociation association)
         {
             foreach (var pc in association.PresentationContexts)
             {
@@ -41,13 +43,15 @@ namespace DicomServerTest
             }
 
             Console.WriteLine("Got message");
-            SendAssociationAccept(association);
+            return SendAssociationAcceptAsync(association);
 
         }
-        public void OnReceiveAssociationReleaseRequest()
+
+        public Task OnReceiveAssociationReleaseRequestAsync()
         {
-            SendAssociationReleaseResponse();
+            return SendAssociationReleaseResponseAsync();
         }
+
         public void OnReceiveAbort(DicomAbortSource source, DicomAbortReason reason)
         {
 

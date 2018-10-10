@@ -1,5 +1,6 @@
 ﻿using Dicom;
 using Dicom.Imaging;
+using Dicom.Media;
 using Dicom.Network;
 using FoDicomTest.Communication;
 using FoDicomTest.DataSource;
@@ -62,6 +63,10 @@ namespace FoDicomTest
 
                 //SearchModelTest test = new SearchModelTest();
                 //test.Test().Wait();
+
+                string path = @"C:\DATAPART2\FMIDICMFiles\2.16.840.1.114492.4530665600623454105.206247562715.45460.1";
+           //     WriteMedia(path);
+                ReadMedia("D:\\DICOMDIR.dcm");
             }
             catch (Exception ex)
             {
@@ -86,6 +91,50 @@ namespace FoDicomTest
             }
             PacsNode node = PacsNode.Philips;
             client.Send(node.Host, node.Port, false, "FODICOMSCU", node.AET);
+        }
+
+        static void WriteMedia(string path)
+        {
+            var dicomDirPath = Path.Combine("D:\\", "DICOMDIR.dcm");
+            var dirInfo = new DirectoryInfo(path);
+
+            var dicomDir = new DicomDirectory();
+            foreach (var file in dirInfo.GetFiles("*.*", SearchOption.AllDirectories))
+            {
+                var dicomFile = DicomFile.Open(file.FullName);
+                dicomDir.AddFile(dicomFile, file.FullName);
+            }
+            dicomDir.Save(dicomDirPath);
+        }
+
+        private static void ReadMedia(string fileName)
+        {
+            var dicomDirectory = DicomDirectory.Open(fileName);
+            foreach (var patientRecord in dicomDirectory.RootDirectoryRecordCollection)
+            {
+                Console.WriteLine(
+                    "Patient: {0} ({1})",
+                    patientRecord.GetSingleValue<string>(DicomTag.PatientName),
+                    patientRecord.GetSingleValue<string>(DicomTag.PatientID));
+
+                foreach (var studyRecord in patientRecord.LowerLevelDirectoryRecordCollection)
+                {
+                    Console.WriteLine("\tStudy: {0}", studyRecord.GetSingleValue<string>(DicomTag.StudyInstanceUID));
+                    foreach (var seriesRecord in studyRecord.LowerLevelDirectoryRecordCollection)
+                    {
+                        Console.WriteLine("\t\tSeries: {0}", seriesRecord.GetSingleValue<string>(DicomTag.SeriesInstanceUID));
+                        foreach (var imageRecord in seriesRecord.LowerLevelDirectoryRecordCollection)
+                        {
+                            string sopInstanceUID = imageRecord.GetSingleValue<string>(DicomTag.ReferencedSOPInstanceUIDInFile);
+                            string fileId = imageRecord.GetString(DicomTag.ReferencedFileID);
+                            Console.WriteLine(
+                                "\t\t\tImage: {0} [{1}]",
+                                sopInstanceUID,
+                                fileId);
+                        }
+                    }
+                }
+            }
         }
     }
 }

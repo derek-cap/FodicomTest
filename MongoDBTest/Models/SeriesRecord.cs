@@ -1,15 +1,31 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MongoDBTest.Models
 {
-    class SeriesRecord
+    public class SeriesRecord
     {
         [BsonElement("series_uid")]
         public string SeriesUID { get; set; }
+
+        [BsonElement("series_date")]
+        public string SeriesDate { get; set; }
+
+        [BsonElement("series_time")]
+        public string SeriesTime { get; set; }
+
+        [BsonElement("modality")]
+        public string Modality { get; set; }
+
+        [BsonElement("series_number")]
+        public string SeriesNumber { get; set; }
+
+        [BsonElement("images")]
+        public List<ImageRecord> ImageCollection { get; set; }
+
+        public SeriesRecord()
+        {
+            ImageCollection = new List<ImageRecord>();
+        }
     }
 }

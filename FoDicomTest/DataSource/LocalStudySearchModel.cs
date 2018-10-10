@@ -66,7 +66,7 @@ namespace FoDicomTest.DataSource
             {
                 if (response.Status == DicomStatus.Pending)
                 {
-                    result.Add(response.Dataset.Get<string>(DicomTag.SeriesInstanceUID));
+                    result.Add(response.Dataset.GetString(DicomTag.SeriesInstanceUID));
                 }
             };
             client.AddRequest(request);
