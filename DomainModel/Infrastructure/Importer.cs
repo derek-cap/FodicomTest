@@ -6,16 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dicom;
+using DomainModel.Models;
 
-namespace MongoDBTest.Models
+namespace DomainModel.Infrastructure
 {
-    class Importer
+    public class Importer : IImporter
     {
-        private IStudyRepository _repo;
+        private IStudyRepository _studyRepo;
+        private IDicomFileRepository _fileRepo;
 
-        public Importer(IStudyRepository repository)
+        public Importer(IStudyRepository studyRepo, IDicomFileRepository fileRepo)
         {
-            _repo = repository;
+            _studyRepo = studyRepo;
+            _fileRepo = fileRepo;
         }
 
         public async Task ImportAsync(string filePath)
@@ -27,8 +30,23 @@ namespace MongoDBTest.Models
             // Insert to database.
             foreach (var item in studies)
             {
-                await _repo.AddOrUpdateAsync(item);
+                await _studyRepo.AddOrUpdateSeriesAsync(item);
             }
+        }
+
+        public async Task ImportAsync(DicomDataset dicom)
+        {
+            var patient = ToPatient(dicom);
+            var study = ToStudy(dicom);
+            var series = ToSeries(dicom);
+            var image = ToImage(dicom);
+            image.ReferencedFileID = await _fileRepo.SaveAsync(dicom);
+            
+            series.ImageCollection.Add(image);
+            study.SeriesCollection.Add(series);
+            study.Paitent = patient;
+
+            await _studyRepo.AddOrUpdateImageAsync(study);
         }
 
         /// <summary>
@@ -86,13 +104,8 @@ namespace MongoDBTest.Models
             return studies;
         }
 
-        private static void InsertToDatabase()
-        {
-
-        }
-
         #region To data base record
-        private static PatientRecord ToPatient(DicomDirectoryRecord record)
+        private static PatientRecord ToPatient(DicomDataset record)
         {
             PatientRecord patient = new PatientRecord();
             patient.PatientName = record.GetSingleValueOrDefault<string>(DicomTag.PatientName, null);
@@ -102,7 +115,7 @@ namespace MongoDBTest.Models
             return patient;
         }
 
-        private static StudyRecord ToStudy(DicomDirectoryRecord record)
+        private static StudyRecord ToStudy(DicomDataset record)
         {
             StudyRecord study = new StudyRecord();
             study.StudyUID = record.GetSingleValue<string>(DicomTag.StudyInstanceUID);
@@ -112,7 +125,7 @@ namespace MongoDBTest.Models
             return study;
         }
 
-        private static SeriesRecord ToSeries(DicomDirectoryRecord record)
+        private static SeriesRecord ToSeries(DicomDataset record)
         {
             SeriesRecord series = new SeriesRecord();
             series.SeriesUID = record.GetSingleValue<string>(DicomTag.SeriesInstanceUID);
@@ -129,6 +142,16 @@ namespace MongoDBTest.Models
             image.SOPInstanceUID = record.GetSingleValue<string>(DicomTag.ReferencedSOPInstanceUIDInFile);
             image.ImageNumber = record.GetSingleValueOrDefault<string>(DicomTag.InstanceNumber, null);
             image.ReferencedFileID = record.GetValueOrDefault<string>(DicomTag.ReferencedFileID, 0, null);
+            
+            return image;
+        }
+
+        private static ImageRecord ToImage(DicomDataset record)
+        {
+            ImageRecord image = new ImageRecord();
+            image.SOPInstanceUID = record.GetSingleValue<string>(DicomTag.SOPInstanceUID);
+            image.ImageNumber = record.GetSingleValueOrDefault<string>(DicomTag.InstanceNumber, null);
+
             return image;
         }
 

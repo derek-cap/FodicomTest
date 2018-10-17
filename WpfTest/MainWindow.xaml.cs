@@ -30,5 +30,19 @@ namespace WpfTest
             InitializeComponent();
             this.DataContext = _viewModel;
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {            
+            ResizeMode = ResizeMode.NoResize;
+            Topmost = true;
+
+            Top = 0;
+            Left = 0;
+            Width = SystemParameters.PrimaryScreenWidth;
+            Height = SystemParameters.PrimaryScreenHeight;
+
+            ProgressBar bar = new ProgressBar();
+            
+        }
     }
 }

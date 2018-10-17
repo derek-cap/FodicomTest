@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace MongoDBTest.Models
+namespace DomainModel.Models
 {
     public class PatientRecord
     {

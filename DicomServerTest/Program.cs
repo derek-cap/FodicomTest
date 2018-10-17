@@ -14,6 +14,7 @@ namespace DicomServerTest
             try
             {
                 var server = DicomServer.Create<CStoreSCPProvider>(104);
+                var server2 = DicomServer.Create<QRService>(105);
 
                 Console.WriteLine("Running...");
                 Console.ReadLine();

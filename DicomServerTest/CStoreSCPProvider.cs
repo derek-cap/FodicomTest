@@ -1,11 +1,14 @@
 ﻿using Dicom;
 using Dicom.Log;
 using Dicom.Network;
+using DomainModel.Infrastructure;
+using DomainModel.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DicomServerTest
@@ -17,7 +20,16 @@ namespace DicomServerTest
 
         public DicomCStoreResponse OnCStoreRequest(DicomCStoreRequest request)
         {
-            Console.WriteLine("Got request." + request.MessageID);
+            try
+            {
+                Console.WriteLine("Got request." + request.MessageID + $"  {Thread.CurrentThread.ManagedThreadId}");
+                IImporter importer = new Importer(new MongoStudyRepository(), new DicomFileRepository());
+                importer.ImportAsync(request.Dataset).Wait();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
             return new DicomCStoreResponse(request, DicomStatus.Success);
         }
 
@@ -42,7 +54,7 @@ namespace DicomServerTest
                 }
             }
 
-            Console.WriteLine("Got message");
+            Console.WriteLine($"Got association request: {association.CallingAE}, {Thread.CurrentThread.ManagedThreadId}");
             return SendAssociationAcceptAsync(association);
 
         }

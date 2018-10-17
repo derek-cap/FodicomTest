@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -28,45 +29,51 @@ namespace FoDicomTest
             try
             {
                 //var client = new DicomClient();
-                //for (int i = 0; i < 10; i++)
+                //string path = @"C:\DATAPART2\FMIDICMFiles\2.16.840.1.114492.4530665600623454105.206257310604.43174.16";
+
+                //DirectoryInfo info = new DirectoryInfo(path);
+                //foreach (var file in info.GetFiles("*.*", SearchOption.AllDirectories))
                 //{
-                //    DicomCStoreRequest request = new DicomCStoreRequest("D:\\123.dcm");
+                //    DicomCStoreRequest request = new DicomCStoreRequest(file.FullName);
                 //    request.OnResponseReceived += (req, rsp) =>
                 //    {
-                //        Console.WriteLine(rsp.Status);
+                //        Console.WriteLine(rsp.Status + $"{req.MessageID}, {Thread.CurrentThread.ManagedThreadId}");
                 //    };
                 //    client.AddRequest(request);
-
-                //    DicomCFindRequest request2 = DicomCFindRequest.CreateWorklistQuery();
-
-
                 //}
-                //client.Send("127.0.0.1", 12345, false, "SCU", "ANY-SCP");
 
-                //   string path = @"D:\Dicom\Chen^Bi^Sheng\SE01";
-                //   var files = new DirectoryInfo(path).GetFiles();
-                //   foreach (var item in files)
-                //   {
-                //       FileStream stream = File.Open(item.FullName, FileMode.Open);
-                //       //DicomFile file = DicomFile.Open(item.FullName);
-                //       DicomFile file = DicomFile.Open(stream);
-                ////       stream.Close();
-                //       string uid = file.Dataset.Get<string>(DicomTag.StudyInstanceUID);
-                //       DicomImage image = new DicomImage(file.Dataset);
-                //       Console.WriteLine(uid.Length);
-                //       //string newName = item.FullName + "_fo";
-                //       //file.Save(newName);
-                //       file.Save(item.FullName);
-                //   }
-                //   ImageTest.Run();
+                //client.Send("127.0.0.1", 104, false, "SCU", "ANY-SCP");
+                var client = new DicomClient();
+                client.NegotiateAsyncOps();
+                client.AddRequest(new DicomCEchoRequest());
+                client.Send("127.0.0.1", 106, false, "SCU", "ANY-SCP");
+
+                
+
+                    //   string path = @"D:\Dicom\Chen^Bi^Sheng\SE01";
+                    //   var files = new DirectoryInfo(path).GetFiles();
+                    //   foreach (var item in files)
+                    //   {
+                    //       FileStream stream = File.Open(item.FullName, FileMode.Open);
+                    //       //DicomFile file = DicomFile.Open(item.FullName);
+                    //       DicomFile file = DicomFile.Open(stream);
+                    ////       stream.Close();
+                    //       string uid = file.Dataset.Get<string>(DicomTag.StudyInstanceUID);
+                    //       DicomImage image = new DicomImage(file.Dataset);
+                    //       Console.WriteLine(uid.Length);
+                    //       //string newName = item.FullName + "_fo";
+                    //       //file.Save(newName);
+                    //       file.Save(item.FullName);
+                    //   }
+                    //   ImageTest.Run();
 
 
-                //SearchModelTest test = new SearchModelTest();
-                //test.Test().Wait();
+                    //SearchModelTest test = new SearchModelTest();
+                    //test.Test().Wait();
 
-                string path = @"C:\DATAPART2\FMIDICMFiles\2.16.840.1.114492.4530665600623454105.206247562715.45460.1";
-           //     WriteMedia(path);
-                ReadMedia("D:\\DICOMDIR.dcm");
+           //         string path = @"C:\DATAPART2\FMIDICMFiles\2.16.840.1.114492.4530665600623454105.206247562715.45460.1";
+           ////     WriteMedia(path);
+           //     ReadMedia("D:\\DICOMDIR.dcm");
             }
             catch (Exception ex)
             {

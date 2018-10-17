@@ -1,11 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MongoDBTest.Models
+namespace DomainModel.Models
 {
     public class StudyRecord
     {
@@ -29,6 +25,9 @@ namespace MongoDBTest.Models
 
         [BsonElement("series")]
         public List<SeriesRecord> SeriesCollection { get; set; }
+
+        [BsonElement("study_status")]
+        public int StudyStatus { get; set; }
 
         public StudyRecord()
         {

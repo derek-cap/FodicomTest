@@ -1,4 +1,4 @@
-﻿using MongoDBTest.Models;
+﻿using DomainModel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using System.ComponentModel;
-using MongoDBTest.Infrastructure;
+using DomainModel.Infrastructure;
 
 namespace MongoDBTest
 {
@@ -18,9 +18,16 @@ namespace MongoDBTest
             {
                 //     var records = RecordFactory.CreateImageRecords();
                 //     InsertImageRecordToDb(records);
-                Importer importer = new Importer(new MongoStudyRepository());
-                string path = @"C:\DCMFolder\imagedb\1.2.86.76547135.7.210278.20170306131520";
-                importer.ImportAsync(path).Wait();
+                //Importer importer = new Importer(new MongoStudyRepository());
+                //string path = @"C:\DCMFolder\imagedb\1.2.86.76547135.7.210278.20170306131520";
+                //importer.ImportAsync(path).Wait();
+
+                var _studyRepo = new MongoStudyRepository();
+                string seriesUID = "2.16.840.1.114492.4530665600623454105.206257310733.43174.24";
+
+                var series = _studyRepo.FindSeries(seriesUID);
+
+                Console.WriteLine(series.ImageCollection.Count);
             }
             catch (Exception ex)
             {

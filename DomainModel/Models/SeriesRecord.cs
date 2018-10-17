@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 
-namespace MongoDBTest.Models
+namespace DomainModel.Models
 {
     public class SeriesRecord
     {
