@@ -29,6 +29,7 @@ namespace WpfTest
         {
             InitializeComponent();
             this.DataContext = _viewModel;
+            var result = Delay().GetAwaiter().GetResult();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -43,6 +44,12 @@ namespace WpfTest
 
             ProgressBar bar = new ProgressBar();
             
+        }
+
+        private async Task<string> Delay()
+        {
+            await Task.Delay(1000);
+            return "Yes";
         }
     }
 }

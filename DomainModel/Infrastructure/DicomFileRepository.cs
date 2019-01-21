@@ -40,6 +40,22 @@ namespace DomainModel.Infrastructure
             return filename.Replace(DIRECTORY, "");
         }
 
+        public async Task ModifyAsync(DicomDataset dicom)
+        {
+            // Generate file name.
+            string studyUID = dicom.GetSingleValue<string>(DicomTag.StudyInstanceUID);
+            string seriesUID = dicom.GetSingleValue<string>(DicomTag.SeriesInstanceUID);
+            string imageUID = dicom.GetSingleValue<string>(DicomTag.SOPInstanceUID);
+            string filename = GenerateFilename(studyUID, seriesUID, imageUID);
+
+            // Create directory.
+            FileInfo info = new FileInfo(filename);
+            Directory.CreateDirectory(info.Directory.FullName);
+
+            // Save to buffer file.
+
+        }
+
         // Generate full file name with path.
         private string GenerateFilename(string studyUID, string seriesUID, string imageUID)
         {

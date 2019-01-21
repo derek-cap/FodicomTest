@@ -1,0 +1,45 @@
+﻿<Page
+    x:Class="MenuCard.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MenuCard"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    
+    <Page.Resources>
+        <CollectionViewSource x:Name="itemsViewSource" Source="{Binding Items}"/>
+        <DataTemplate x:Key="MenuCardItemTemplate">
+            <Grid Margin="6">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border Background="AliceBlue" Width="450" Height="450">
+                    <Image Source="{Binding Image}" Stretch="UniformToFill"/>
+                </Border>
+                <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                    <TextBlock Text="{Binding Title}" MaxHeight="40"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Margin="16,0,0,0" Text="Click Me" FontSize="36" FontFamily="Calibri"/>
+        <HyperlinkButton Grid.Row="1" Content="Click to go to page 2" Click="HyperlinkButton_Click"/>
+        <GridView x:Name="itemGridView" AutomationProperties.AutomationId="ItemsGridView" AutomationProperties.Name="Items"
+                  TabIndex="1" Grid.Row="1" Margin="0,-4,0,0" Padding="116,0,116,46"
+                  ItemsSource="{Binding Source={StaticResource itemsViewSource}}"
+                  ItemTemplate="{StaticResource MenuCardItemTemplate}"
+                  IsItemClickEnabled="True"
+                  ItemClick="OnMenuCardClick"/>
+    </Grid>
+</Page>

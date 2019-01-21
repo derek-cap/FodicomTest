@@ -88,7 +88,10 @@ namespace DicomServerTest
                     break;
                 case DicomQueryRetrieveLevel.Study:
                     {
-
+                        var patname = request.Dataset.GetSingleValueOrDefault(DicomTag.PatientName, string.Empty);
+                        var patid = request.Dataset.GetSingleValueOrDefault(DicomTag.PatientID, string.Empty);
+                        var accNr = request.Dataset.GetSingleValueOrDefault(DicomTag.AccessionNumber, string.Empty);
+                        var studyUID = request.Dataset.GetSingleValueOrDefault(DicomTag.StudyInstanceUID, string.Empty);
                     }
                     break;
                 case DicomQueryRetrieveLevel.Series:
@@ -100,6 +103,27 @@ namespace DicomServerTest
                     yield return new DicomCFindResponse(request, DicomStatus.QueryRetrieveUnableToProcess);
                     yield break;
             }
+
+            // Now read the required dicomtags from the matching files and resturn as results.
+            foreach (var matchingFile in matchingFiles)
+            {
+                var dicomFile = DicomFile.Open(matchingFile);
+                var result = new DicomDataset();
+                foreach (var requestedTag in request.Dataset)
+                {
+                    if (dicomFile.Dataset.Contains(requestedTag))
+                    {
+                        dicomFile.Dataset.CopyTo(result, requestedTag.Tag);
+                    }
+                    else
+                    {
+                        result.Add(requestedTag);
+                    }
+                    yield return new DicomCFindResponse(request, DicomStatus.Pending) { Dataset = result };
+                }
+            }
+
+            yield return new DicomCFindResponse(request, DicomStatus.Success);
         }
 
         public IEnumerable<DicomCGetResponse> OnCGetRequest(DicomCGetRequest request)

@@ -14,6 +14,11 @@ namespace DomainModel.Models
 
         List<string> FindSeriesFiles(string patientName, string patientId, string accessionNbr, string studyUID, string seriesUID, string modality);
 
+        /// <summary>
+        /// Searches in a DICOM store for all the files matching the patientId.
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <returns></returns>
         List<string> FindFilesByPatient(string patientId);
 
         List<string> FindFilesByStudyUID(string studyUID);

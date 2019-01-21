@@ -30,23 +30,35 @@ namespace DomainModel.Infrastructure
             // Insert to database.
             foreach (var item in studies)
             {
-                await _studyRepo.AddOrUpdateSeriesAsync(item);
+    //            await _studyRepo.AddOrUpdateSeriesAsync(item);
             }
         }
 
         public async Task ImportAsync(DicomDataset dicom)
         {
-            var patient = ToPatient(dicom);
-            var study = ToStudy(dicom);
-            var series = ToSeries(dicom);
-            var image = ToImage(dicom);
-            image.ReferencedFileID = await _fileRepo.SaveAsync(dicom);
-            
-            series.ImageCollection.Add(image);
-            study.SeriesCollection.Add(series);
-            study.Paitent = patient;
+            //var patient = ToPatient(dicom);
+            //var study = ToStudy(dicom);
+            //var series = ToSeries(dicom);
+            //var image = ToImage(dicom);
+            //image.ReferencedFileID = await _fileRepo.SaveAsync(dicom);
 
-            await _studyRepo.AddOrUpdateImageAsync(study);
+            //series.ImageCollection.Add(image);
+            //study.SeriesCollection.Add(series);
+            //study.Paitent = patient;
+
+            //await _studyRepo.AddOrUpdateImageAsync(study);
+
+            string studyUID = dicom.GetSingleValue<string>(DicomTag.StudyInstanceUID);
+            DicomStudy study = await _studyRepo.GetAsync(studyUID);
+            // Create one study if the studyUID doesn't exist.
+            if (study is NotFoundStudy)
+            {
+                study = DicomStudy.CreateFromDicom(dicom);
+            }
+            else
+            {
+                study.AddImageItem(dicom);
+            }
         }
 
         /// <summary>
@@ -67,9 +79,9 @@ namespace DomainModel.Infrastructure
             return dicomDir;
         }
 
-        private static List<StudyRecord> ReadMedia(DicomDirectory dicomDirectory)
+        private static List<DicomStudy> ReadMedia(DicomDirectory dicomDirectory)
         {
-            List<StudyRecord> studies = new List<StudyRecord>();
+            List<DicomStudy> studies = new List<DicomStudy>();
 
             foreach (var patientRecord in dicomDirectory.RootDirectoryRecordCollection)
             {
@@ -90,11 +102,11 @@ namespace DomainModel.Infrastructure
                         foreach (var imageRecord in seriesRecord.LowerLevelDirectoryRecordCollection)
                         {                            
                             var image = ToImage(imageRecord);
-                            series.ImageCollection.Add(image);
+                     //       series.ImageCollection.Add(image);
                             Console.WriteLine($"Read image {image.ImageNumber}");
                         }
 
-                        study.SeriesCollection.Add(series);
+               //         study.SeriesCollection.Add(series);
                     }
 
                     studies.Add(study);
@@ -115,14 +127,10 @@ namespace DomainModel.Infrastructure
             return patient;
         }
 
-        private static StudyRecord ToStudy(DicomDataset record)
+        private static DicomStudy ToStudy(DicomDataset record)
         {
-            StudyRecord study = new StudyRecord();
-            study.StudyUID = record.GetSingleValue<string>(DicomTag.StudyInstanceUID);
-            study.StudyID = record.GetSingleValueOrDefault<string>(DicomTag.StudyID, null);
-            study.StudyDate = record.GetSingleValueOrDefault<string>(DicomTag.StudyDate, null);
-            study.StudyTime = record.GetSingleValueOrDefault<string>(DicomTag.StudyTime, null);
-            return study;
+            // This cannot work.
+            return DicomStudy.CreateFromDicom(record);
         }
 
         private static SeriesRecord ToSeries(DicomDataset record)

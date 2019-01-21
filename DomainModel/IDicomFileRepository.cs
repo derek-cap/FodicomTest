@@ -12,5 +12,7 @@ namespace DomainModel.Models
         Task<string> SaveAsync(DicomDataset dicom);
 
         Task<DicomDataset> OpenAsync(string fileName);
+
+        Task ModifyAsync(DicomDataset dicom);
     }
 }

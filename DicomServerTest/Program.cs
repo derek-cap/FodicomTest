@@ -1,4 +1,5 @@
-﻿using Dicom.Network;
+﻿using Dicom;
+using Dicom.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,12 @@ namespace DicomServerTest
             {
                 var server = DicomServer.Create<CStoreSCPProvider>(104);
                 var server2 = DicomServer.Create<QRService>(105);
+
+                //PacsNodeReader reader = new PacsNodeReader();
+                //foreach (var item in reader.PacsNode())
+                //{
+                //    Console.WriteLine($"{item.Name}, {item.Port}");
+                //}
 
                 Console.WriteLine("Running...");
                 Console.ReadLine();

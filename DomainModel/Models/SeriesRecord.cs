@@ -20,12 +20,22 @@ namespace DomainModel.Models
         [BsonElement("series_number")]
         public string SeriesNumber { get; set; }
 
+        [BsonElement("series_description")]
+        public string SeriesDescription { get; set; }
+
         [BsonElement("images")]
-        public List<ImageRecord> ImageCollection { get; set; }
+        private List<ImageRecord> _images;
+
+        public IReadOnlyCollection<ImageRecord> ImageCollection => _images;
 
         public SeriesRecord()
         {
-            ImageCollection = new List<ImageRecord>();
+            _images = new List<ImageRecord>();
+        }
+
+        public void AddImage(ImageRecord image)
+        {
+            _images.Add(image);
         }
     }
 }

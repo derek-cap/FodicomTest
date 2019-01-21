@@ -1,0 +1,29 @@
+{
+  "SCP": {
+    "CStore": {
+      "AE": "Minfound.Store",
+      "Port": 104
+    },
+    "QR": {
+      "AE": "Minfound.QR",
+      "Port": 105
+    }
+  },
+  "SCU": {
+    "CallingAE": "Minfound.ClientAE",
+    "PACS": [
+      {
+        "Name": "First",
+        "AE": "1",
+        "Port": 104,
+        "IPAddress": "127.0.0.1"
+      },
+      {
+        "Name": "Second",
+        "AE": "2",
+        "Port": 104,
+        "IPAddress": "127.0.0.1"
+      }
+    ]
+  }
+}

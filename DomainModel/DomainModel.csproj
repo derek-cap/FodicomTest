@@ -63,20 +63,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DicomStation.cs" />
+    <Compile Include="Events\StudyCreatedEvent.cs" />
+    <Compile Include="Events\StudyCreatedEventHandler.cs" />
+    <Compile Include="Events\StudyUpdatedEvent.cs" />
+    <Compile Include="Events\StudyUpdatedEventHandler.cs" />
     <Compile Include="IDicomFileRepository.cs" />
     <Compile Include="IDicomImageFinderService.cs" />
     <Compile Include="Infrastructure\DicomFileRepository.cs" />
     <Compile Include="Infrastructure\DicomImageFinderService.cs" />
     <Compile Include="Infrastructure\Importer.cs" />
+    <Compile Include="Infrastructure\MongoStudyRepository-back.cs" />
     <Compile Include="Infrastructure\MongoStudyRepository.cs" />
+    <Compile Include="Infrastructure\StudiesContext.cs" />
     <Compile Include="Models\ImageRecord.cs" />
     <Compile Include="IImporter.cs" />
     <Compile Include="IStudyRepository.cs" />
+    <Compile Include="Models\NotFoundStudy.cs" />
     <Compile Include="Models\PatientRecord.cs" />
     <Compile Include="Models\DicomRecord.cs" />
     <Compile Include="Models\SeriesRecord.cs" />
-    <Compile Include="Models\StudyRecord.cs" />
+    <Compile Include="Models\DicomStudy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\DicomStudyFacade.cs" />
+    <Compile Include="DbSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

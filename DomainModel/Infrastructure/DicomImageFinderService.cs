@@ -5,21 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using MongoDB.Driver.Linq;
+using MongoDB.Driver;
+using DomainModel.Service;
 
 namespace DomainModel.Infrastructure
 {
     public class DicomImageFinderService : IDicomImageFinderService
     {
-        private IStudyRepository _studyRepo;
+        private readonly DicomStudyFacade _context;
 
-        public DicomImageFinderService(IStudyRepository studyRepository)
+        public DicomImageFinderService()
         {
-            _studyRepo = studyRepository;
+            _context = new DicomStudyFacade();
         }
 
         public List<string> FindFilesByPatient(string patientId)
         {
-            var studies = from s in _studyRepo.AllStudies()
+            var studies = from s in _context.AllStuies
                           where s.Paitent.PatientID == patientId
                           select s;
 
@@ -36,7 +39,7 @@ namespace DomainModel.Infrastructure
 
         public List<string> FindFilesByStudyUID(string studyUID)
         {
-            var study = _studyRepo.AllStudies().Where(s => s.StudyUID == studyUID).FirstOrDefault();
+            var study = _context.AllStuies.Where(s => s.StudyUID == studyUID).FirstOrDefault();
             List<ImageRecord> images = new List<ImageRecord>();
             if (study != null)
             {
@@ -50,7 +53,11 @@ namespace DomainModel.Infrastructure
 
         public List<string> FindFilesBySeriesUID(string seriesUID)
         {
-            var result = _studyRepo.FindSeries(seriesUID);
+            var result = _context.AllStuies
+                .SelectMany(study => study.SeriesCollection)
+                .Where(s => s.SeriesUID == seriesUID)
+                .FirstOrDefault();
+
             List<ImageRecord> images = new List<ImageRecord>();
             if (result != null)
             {

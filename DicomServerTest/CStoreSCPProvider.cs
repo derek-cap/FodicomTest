@@ -15,8 +15,13 @@ namespace DicomServerTest
 {
     class CStoreSCPProvider : DicomService, IDicomServiceProvider, IDicomCStoreProvider, IDicomCEchoProvider
     {
+        private IPacsNodeReader _pacsReader;
+
         public CStoreSCPProvider(INetworkStream stream, Encoding fallbackEncoding, Logger log)
-            : base(stream, fallbackEncoding, log) { }
+            : base(stream, fallbackEncoding, log)
+        {
+            _pacsReader = new PacsNodeReader();
+        }
 
         public DicomCStoreResponse OnCStoreRequest(DicomCStoreRequest request)
         {
@@ -30,6 +35,8 @@ namespace DicomServerTest
             {
                 Console.WriteLine(ex);
             }
+            //Thread.Sleep(1000);
+            //Console.WriteLine("Do get");
             return new DicomCStoreResponse(request, DicomStatus.Success);
         }
 
@@ -40,17 +47,19 @@ namespace DicomServerTest
 
         public Task OnReceiveAssociationRequestAsync(DicomAssociation association)
         {
+            // Assert called AE.
+            //if (association.CalledAE != "STORESCP")
+            //{
+            //    return SendAssociationRejectAsync(DicomRejectResult.Permanent, DicomRejectSource.ServiceUser, DicomRejectReason.CalledAENotRecognized);
+            //}
+
             foreach (var pc in association.PresentationContexts)
             {
                 if (pc.AbstractSyntax == DicomUID.Verification)
-                    pc.SetResult(DicomPresentationContextResult.Accept);
-                else
+                    pc.AcceptTransferSyntaxes(SupportedTransferSyntaxes.AcceptedTransferSyntaxes);
+                else if (pc.AbstractSyntax.StorageCategory != DicomStorageCategory.None)
                 {
-                    //pc.SetResult(DicomPresentationContextResult.RejectAbstractSyntaxNotSupported);  
-                }
-                if (pc.AbstractSyntax == DicomUID.CTImageStorage)
-                {
-                    pc.SetResult(DicomPresentationContextResult.Accept);
+                    pc.AcceptTransferSyntaxes(SupportedTransferSyntaxes.AcceptedImageTransferSyntaxes);
                 }
             }
 

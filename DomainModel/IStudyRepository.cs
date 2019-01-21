@@ -8,17 +8,10 @@ namespace DomainModel.Models
 {
     public interface IStudyRepository
     {
-        Task AddOrUpdateSeriesAsync(StudyRecord study);
+        Task<DicomStudy> Add(DicomStudy study);
 
-        /// <summary>
-        /// Add or update an image record (contains in <see cref="StudyRecord"/>) to database.
-        /// </summary>
-        /// <param name="study"></param>
-        /// <returns></returns>
-        Task AddOrUpdateImageAsync(StudyRecord study);
+        Task Update(DicomStudy study);
 
-        IQueryable<StudyRecord> AllStudies();
-
-        SeriesRecord FindSeries(string seriesUID);
+        Task<DicomStudy> GetAsync(string studyUID);
     }
 }

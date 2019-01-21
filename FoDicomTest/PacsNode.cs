@@ -24,7 +24,7 @@ namespace FoDicomTest
         {
             get
             {
-                return new PacsNode() { Host = "10.10.21.87", Port = 105, AET = "RECHTON" };
+                return new PacsNode() { Host = "10.10.21.87", Port = 105, AET = "CREALIFE" };
             }
         }
     }

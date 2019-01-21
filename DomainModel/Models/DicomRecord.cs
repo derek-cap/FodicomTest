@@ -15,16 +15,6 @@ namespace DomainModel.Models
             return patient;
         }
 
-        public static StudyRecord ToStudy(DicomDataset record)
-        {
-            StudyRecord study = new StudyRecord();
-            study.StudyUID = record.GetSingleValue<string>(DicomTag.StudyInstanceUID);
-            study.StudyID = record.GetSingleValueOrDefault<string>(DicomTag.StudyID, null);
-            study.StudyDate = record.GetSingleValueOrDefault<string>(DicomTag.StudyDate, null);
-            study.StudyTime = record.GetSingleValueOrDefault<string>(DicomTag.StudyTime, null);
-            return study;
-        }
-
         public static SeriesRecord ToSeries(DicomDataset record)
         {
             SeriesRecord series = new SeriesRecord();
@@ -44,6 +34,36 @@ namespace DomainModel.Models
             image.ReferencedFileID = record.GetValueOrDefault<string>(DicomTag.ReferencedFileID, 0, null);
 
             return image;
+        }
+
+        #endregion
+
+        #region Write record to dataset
+        public static void WriteStudy(this DicomDataset dataset, DicomStudy study)
+        {
+            dataset.AddOrUpdate(DicomTag.PatientName, study.Paitent.PatientName);
+            dataset.AddOrUpdate(DicomTag.PatientID, study.Paitent.PatientID);
+            dataset.AddOrUpdate(DicomTag.PatientSex, study.Paitent.PatientSex);
+
+            dataset.AddOrUpdate(DicomTag.StudyInstanceUID, study.StudyUID);
+            dataset.AddOrUpdate(DicomTag.StudyID, study.StudyID);
+            dataset.AddOrUpdate(DicomTag.StudyDate, study.StudyDate);
+            dataset.AddOrUpdate(DicomTag.StudyTime, study.StudyTime);
+
+            dataset.AddOrUpdate(DicomTag.NumberOfStudyRelatedInstances, study.SeriesCollection.Count.ToString());
+        }
+
+        public static void WriteSeries(this DicomDataset dataset, string studyUID, SeriesRecord series)
+        {
+            dataset.AddOrUpdate(DicomTag.StudyInstanceUID, studyUID);
+
+            dataset.AddOrUpdate(DicomTag.SeriesInstanceUID, series.SeriesUID);
+            dataset.AddOrUpdate(DicomTag.SeriesNumber, series.SeriesNumber);
+            dataset.AddOrUpdate(DicomTag.SeriesDate, series.SeriesDate);
+            dataset.AddOrUpdate(DicomTag.SeriesTime, series.SeriesTime);
+            dataset.AddOrUpdate(DicomTag.Modality, series.Modality);
+
+            dataset.AddOrUpdate(DicomTag.NumberOfSeriesRelatedInstances, series.ImageCollection.Count.ToString());
         }
 
         #endregion

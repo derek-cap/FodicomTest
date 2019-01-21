@@ -17,7 +17,16 @@
     </UserControl.Resources>
 
     <Grid Name="MainGrid" Background="LightGray" MouseDown="ScenesControl_MouseDown" MouseMove="ScenesControl_MouseMove" MouseUp="MainGrid_MouseUp">
-        <TextBlock Name="HUText" Text="A" FontSize="16" Foreground="Aqua"/>
+        <StackPanel>
+            <TextBlock Name="HUText" Text="mm²" FontSize="16" Foreground="Aqua" FontFamily="Calibri"/>
+            <RichTextBox Width="56" Background="Transparent" FontSize="16" FontFamily="Calibri">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run>mm&#x00B2;</Run>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </StackPanel>
         <ItemsControl Name="ScenesControl" ItemsSource="{Binding ObjectCollection}" >
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
